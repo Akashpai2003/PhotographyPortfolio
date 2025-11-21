@@ -1,13 +1,31 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { FloatingSticker } from './components/FloatingSticker';
 import { PhotoModal } from './components/PhotoModal';
+import { FolderIcon } from './components/FolderIcon';
+import { MasonryGridModal } from './components/MasonryGridModal';
 import { INITIAL_PHOTOS, DEFAULT_BG_IMAGE } from './constants';
 import { Photo } from './types';
 
 function App() {
-  const [photos] = useState<Photo[]>(INITIAL_PHOTOS);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [isGridOpen, setIsGridOpen] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string>(DEFAULT_BG_IMAGE);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile to limit number of photos
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // On mobile, slice the array to only show the first 6 items to avoid congestion.
+  // The Masonry Grid will allow users to see ALL photos.
+  const visiblePhotos = isMobile ? INITIAL_PHOTOS.slice(0, 6) : INITIAL_PHOTOS;
 
   const handlePhotoClick = (photo: Photo) => {
     setSelectedPhoto(photo);
@@ -29,23 +47,22 @@ function App() {
       {/* --- DESKTOP UI LAYER --- */}
       <div className="relative z-10 w-full h-full">
         
-        {/* --- CENTER MANIFESTO OVERLAY (Minimal) --- */}
-        {/* Mobile: Fixed top 15%, Centered items. Desktop: Centered Vertically/Horizontally, Left aligned items */}
+        {/* --- CENTER MANIFESTO OVERLAY --- */}
         <div className="absolute top-[15%] md:top-[30%] left-1/2 -translate-x-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-start max-w-[90%] md:max-w-[500px] pointer-events-none z-0 text-center md:text-left">
             
-            {/* Floating Sticker - Personalized */}
+            {/* Floating Sticker */}
             <div className="bg-white text-blue-600 px-5 py-2 mb-6 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-blue-50 font-medium text-sm tracking-wide animate-[float_6s_ease-in-out_infinite]">
                 hey, i am akash!
             </div>
 
-            {/* Text Body (Clean & Minimal) */}
+            {/* Text Body */}
             <div className="font-sans text-3xl md:text-4xl leading-[1.3] text-gray-900 font-light tracking-tight">
                 <span>
-                    I'm gathering the lessons, the light, the grit, the tears, the strength,
+                    Chasing the light, freezing time,
                 </span>
                 <br/>
                 <span className="mt-2 inline-block text-gray-400">
-                    and turning them into gold.
+                    and telling stories without words.
                 </span>
             </div>
 
@@ -57,8 +74,19 @@ function App() {
             </div>
         </div>
 
-        {/* --- DESKTOP ICONS --- */}
-        {photos.map((photo, index) => (
+        {/* --- FOLDER ICON --- */}
+        {/* 
+            Desktop: Top-Right (40px from top, 100px from right edge)
+            Mobile: Bottom-Center (120px from bottom, centered horizontally)
+        */}
+        <FolderIcon 
+            onClick={() => setIsGridOpen(true)} 
+            top={isMobile ? 'calc(100% - 120px)' : '40px'} 
+            left={isMobile ? 'calc(50% - 25px)' : 'calc(100% - 100px)'} 
+        />
+
+        {/* --- FLOATING PHOTOS --- */}
+        {visiblePhotos.map((photo, index) => (
           <FloatingSticker 
             key={photo.id} 
             photo={photo} 
@@ -69,7 +97,19 @@ function App() {
 
       </div>
 
-      {/* --- MODAL --- */}
+      {/* --- MASONRY GRID MODAL --- */}
+      {isGridOpen && (
+        <MasonryGridModal 
+          photos={INITIAL_PHOTOS} 
+          onClose={() => setIsGridOpen(false)} 
+          onPhotoClick={(photo) => {
+            setIsGridOpen(false);
+            setSelectedPhoto(photo);
+          }}
+        />
+      )}
+
+      {/* --- PHOTO MODAL (LightBox) --- */}
       {selectedPhoto && (
         <PhotoModal 
           photo={selectedPhoto} 

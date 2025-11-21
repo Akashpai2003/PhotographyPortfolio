@@ -22,7 +22,6 @@ export const FloatingSticker: React.FC<FloatingStickerProps> = ({ photo, onClick
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -75,7 +74,18 @@ export const FloatingSticker: React.FC<FloatingStickerProps> = ({ photo, onClick
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
-  // Responsive Layout Calculation
+  // --- MOBILE SLOT SYSTEM ---
+  // Hardcoded positions for the first 6 items to guarantee NO overlap on phone screens.
+  // The text area is approximately Top 15% - 45%.
+  const mobileSlots = [
+    { top: '5%', left: '5%' },   // Top Left
+    { top: '5%', left: '75%' },  // Top Right
+    { top: '60%', left: '5%' },  // Bottom Left 1
+    { top: '60%', left: '72%' }, // Bottom Right 1
+    { top: '80%', left: '15%' }, // Bottom Left 2
+    { top: '78%', left: '60%' }, // Bottom Right 2
+  ];
+
   const getLayout = () => {
     if (!isMobile) {
       return {
@@ -85,47 +95,14 @@ export const FloatingSticker: React.FC<FloatingStickerProps> = ({ photo, onClick
       };
     }
 
-    // Mobile Logic: Scatter items to avoid the text area (approx 12% - 50% top)
-    const originalTop = parseFloat(photo.top);
-    const originalLeft = parseFloat(photo.left);
-    
-    let newTop = originalTop;
-    let newLeft = originalLeft;
-
-    // Text Zone Detection
-    const isInTextZone = originalTop > 12 && originalTop < 50;
-
-    if (isInTextZone) {
-      // Push down to bottom half (55% - 85%)
-      // Use index to vary the vertical position so they don't form a single line
-      const variation = (index % 4) * 8; // 0, 8, 16, 24
-      newTop = 55 + variation;
-      
-      // Horizontal Scatter:
-      // If it was originally on the left, push it slightly right to avoid 
-      // overlapping with items that were ALREADY at the bottom left.
-      // If right, push left.
-      if (originalLeft < 50) newLeft = originalLeft + 15 + (index % 3 * 5);
-      else newLeft = originalLeft - 15 - (index % 3 * 5);
-
-    } else if (originalTop <= 12) {
-        // Keep top items at top, but ensure they aren't in the center (where sticker floats)
-        // Center is roughly 30% - 70% horizontally
-        if (originalLeft > 20 && originalLeft < 80) {
-            // Push to edges
-            newLeft = originalLeft < 50 ? 10 : 85;
-            newTop = Math.max(newTop, 5); 
-        }
-    }
-
-    // Boundary Clamping to prevent overflow
-    newTop = Math.min(Math.max(newTop, 2), 82);
-    newLeft = Math.min(Math.max(newLeft, 5), 80);
+    // Assign a specific slot based on index for deterministic placement
+    // We use modulo just in case visiblePhotos > slots, though we capped it at 6 in App.tsx
+    const slot = mobileSlots[index % mobileSlots.length];
 
     return {
-      top: `${newTop}%`,
-      left: `${newLeft}%`,
-      width: '60px' // Smaller icon on mobile
+      top: slot.top,
+      left: slot.left,
+      width: '65px' 
     };
   };
 

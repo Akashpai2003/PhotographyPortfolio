@@ -1,13 +1,23 @@
 
 import { Photo } from './types';
 
-// Simulating a busy desktop layout with only images
+/* 
+  =============================================================================
+  HOW TO CUSTOMIZE YOUR PHOTOS
+  =============================================================================
+  1. To change an image, replace the 'url' string with your own image link.
+  2. To change the text in the popup bubble, edit the 'caption'.
+  3. To change the text under the icon on the desktop, edit 'location'.
+  4. You can adjust 'top' and 'left' percentages to move them around on Desktop.
+     (Note: Mobile layout is handled automatically)
+*/
+
 export const INITIAL_PHOTOS: Photo[] = [
   // --- Top Left Cluster ---
   {
     id: '5',
     url: 'https://picsum.photos/id/1015/600/400',
-    caption: 'Morning mist.',
+    caption: 'Morning mist in the valley.',
     location: 'Psycho_Dia_01.jpg',
     rotation: 0,
     top: '5%',
@@ -18,7 +28,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '101',
     url: 'https://picsum.photos/id/16/400/300',
-    caption: 'Blue waves.',
+    caption: 'The waves were perfect today.',
     location: 'DCIM_0042.jpg',
     rotation: 0,
     top: '5%',
@@ -29,7 +39,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '102',
     url: 'https://picsum.photos/id/28/500/400',
-    caption: 'Forest walk.',
+    caption: 'Found this quiet spot in the woods.',
     location: 'woods_scan.jpg',
     rotation: 0,
     top: '20%',
@@ -42,7 +52,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '6',
     url: 'https://picsum.photos/id/1040/500/500',
-    caption: 'Architecture detail.',
+    caption: 'The light hitting this castle was unreal.',
     location: 'CTRL_comp_1.jpg',
     rotation: 0,
     top: '8%',
@@ -53,7 +63,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '103',
     url: 'https://picsum.photos/id/42/400/500',
-    caption: 'Coffee break.',
+    caption: 'Routine.',
     location: 'morning_routine.png',
     rotation: 0,
     top: '12%',
@@ -64,7 +74,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '12',
     url: 'https://picsum.photos/id/535/400/300',
-    caption: 'Desert winds.',
+    caption: 'Desert winds picking up.',
     location: 'inspiration_v1.jpg',
     rotation: 0,
     top: '25%',
@@ -77,7 +87,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '7',
     url: 'https://picsum.photos/id/1060/400/500',
-    caption: 'Color study.',
+    caption: 'Color study #4.',
     location: 'Moods.jpg',
     rotation: 0,
     top: '65%',
@@ -88,7 +98,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '104',
     url: 'https://picsum.photos/id/64/400/300',
-    caption: 'Portrait study.',
+    caption: 'She looked right at the lens.',
     location: 'portrait_ref.jpg',
     rotation: 0,
     top: '75%',
@@ -99,7 +109,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '105',
     url: 'https://picsum.photos/id/91/300/400',
-    caption: 'Abstract texture.',
+    caption: 'Textures of the old city.',
     location: 'texture_04.png',
     rotation: 0,
     top: '55%',
@@ -112,7 +122,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '8',
     url: 'https://picsum.photos/id/1076/500/350',
-    caption: 'Logo final version',
+    caption: 'Final shot of the day.',
     location: 'logo_final2.png',
     rotation: 0,
     top: '70%',
@@ -123,7 +133,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '106',
     url: 'https://picsum.photos/id/129/400/400',
-    caption: 'Park bench.',
+    caption: 'Sunday chill.',
     location: 'sunday_chill.jpg',
     rotation: 0,
     top: '60%',
@@ -134,7 +144,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '107',
     url: 'https://picsum.photos/id/180/500/300',
-    caption: 'Workspace.',
+    caption: 'My messy workspace.',
     location: 'desktop_clean.jpg',
     rotation: 0,
     top: '82%',
@@ -147,7 +157,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '108',
     url: 'https://picsum.photos/id/230/300/500',
-    caption: 'Street lights.',
+    caption: 'Street lights buzzing.',
     location: 'night_walk.jpg',
     rotation: 0,
     top: '45%',
@@ -158,7 +168,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '109',
     url: 'https://picsum.photos/id/349/500/300',
-    caption: 'Skyline.',
+    caption: 'City views.',
     location: 'city_view.jpg',
     rotation: 0,
     top: '50%',
@@ -180,7 +190,7 @@ export const INITIAL_PHOTOS: Photo[] = [
   {
     id: '111',
     url: 'https://picsum.photos/id/450/400/300',
-    caption: 'Shadows.',
+    caption: 'Playing with shadows.',
     location: 'contrast_test.png',
     rotation: 0,
     top: '85%',
